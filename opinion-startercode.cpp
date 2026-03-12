@@ -28,7 +28,9 @@ vector < vector < int>> adj;
 vector<vector <int>> edge_list;
 
 void build_adj_matrix()
-{   
+
+{  
+    adj.clear(); 
  
     for (int i = 0; i <total_nodes; i++ )
 
@@ -39,6 +41,7 @@ void build_adj_matrix()
 
         for ( int j = 0; j < total_nodes; j++)
             {
+            
 
                 adj[i].push_back(0);
             
@@ -130,6 +133,35 @@ int get_majority_friend_opinions(int node)
 bool update_opinions()
 {
 
+vector<int> next_opinion;
+int changed = 0;
+
+for (int i=0; i < total_nodes; i++)
+
+    
+    {
+        next_opinion.push_back(get_majority_friend_opinions(i));
+        if (next_opinion[i] != opinions[i])
+            {
+                changed=1;
+            }
+
+    }
+
+
+opinions = next_opinion;
+
+if (changed == 1)
+{
+    return true;
+}
+
+else 
+{
+    return false;
+}
+
+
 }
 
 int main() {
@@ -154,7 +186,21 @@ int main() {
          << calculate_fraction_of_ones() << endl;
     
     /// (6)  //////////////////////////////////////////////
-    
+    while ( (iteration < max_iterations) && (opinions_changed))
+    {
+        
+        opinions_changed = update_opinions();
+
+        
+        iteration = iteration + 1;
+        if (iteration % 10 ==0)
+            {
+                double current_fraction = calculate_fraction_of_ones();
+                cout << "Iteration " << iteration << ": fraction of 1's = "  << current_fraction << endl;
+            }
+    }
+
+
 
     ////////////////////////////////////////////////////////
     // Print final result

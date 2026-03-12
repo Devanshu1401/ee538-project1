@@ -12,31 +12,117 @@ void build_adj_matrix(); // convert edge_list to adjacency matrix
 int total_nodes = 0; // We keep track of the total number of nodes based on largest node id.
 
 
+
 /****************************************************************/
 
 /******** Create adjacency matrix and vector of opinions */
 // simple vector to hold each node's opinion (0 or 1)
-std::vector<int> opinions;
+vector<int> opinions;
 
 // global adjacency matrix initialized later
-std::vector<std::vector<int>> adj;
+
+vector < vector < int>> adj;
 
 // edge list: each row contains {source, target}
-std::vector<std::vector<int>> edge_list;
+
+vector<vector <int>> edge_list;
 
 void build_adj_matrix()
-{
+{   
+ 
+    for (int i = 0; i <total_nodes; i++ )
+
+        {
+
+        vector <int> x;
+        adj.push_back(x);
+
+        for ( int j = 0; j < total_nodes; j++)
+            {
+
+                adj[i].push_back(0);
+            
+            }
+
+        }
+    
+    int edge_length = edge_list.size();
+
+    for (int i = 0; i < edge_length; i ++)
+
+    {
+    int r = edge_list[i][0];
+    int c = edge_list[i][1];
+
+    adj[r][c] =  1;
+    }
     
 }
 
+
 double calculate_fraction_of_ones()
 {
-   
+   int ans = 0;
+   double frac;
+    for (int i = 0; i < total_nodes; i++)
+
+   {
+
+    if (opinions[i]!=0)
+        ans = ans +1;
+
+   }
+
+   frac = ( double)ans/total_nodes;
+   return frac ;
 }
 
 // For a given node, count majority opinion among its neighbours. Tie -> 0.
 int get_majority_friend_opinions(int node)
 {
+    
+    int majority = 0;
+    int zeros= 0;
+    int ones = 0; 
+    
+    vector <int> friends;
+    
+
+    for (int i=0; i<total_nodes; i++)
+
+    {
+        if((adj[i][node]) == 1)
+            friends.push_back(i);        
+    }
+
+    int number_of_friends = friends.size();
+
+    for (int k = 0; k<number_of_friends ; k++)
+
+    {
+        
+        int frnd = friends[k];
+        int op = opinions[frnd];
+        if (op==1)
+        {
+            ones = ones +1;
+        }
+
+        else 
+        {
+            zeros = zeros + 1;
+        }
+
+
+    }
+
+    if (ones  > zeros)
+   
+    {
+        majority = 1;
+    }
+    
+    return majority;
 
 }
 

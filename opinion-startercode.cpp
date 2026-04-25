@@ -34,7 +34,7 @@ double calculate_fraction_of_ones()
     {
         if (opinions[i] == 1)
         {
-            ones_count++;
+            ones_count += 1;;
         }
     }
     return (double)ones_count / total_nodes;

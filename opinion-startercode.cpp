@@ -129,7 +129,7 @@ int main() {
     while ((iteration < max_iterations) && opinions_changed)
     {
         opinions_changed = update_opinions();
-        iteration++;
+        iteration = iteration + 1;
         
         if (iteration % 10 == 0)
         {

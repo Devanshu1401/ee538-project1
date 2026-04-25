@@ -18,7 +18,6 @@ void read_opinions(string filename)
         opinions.push_back(opinion);
         if(id >= total_nodes) total_nodes = id+1;
     }
-    file.close();
 }
 
 void read_edges(string filename)

@@ -3,15 +3,37 @@
 #include <vector>
 using namespace std;
 
-void read_opinions(string filename);
-void read_edges(string filename);
-void build_adj_matrix();
-
 int total_nodes = 0;
 
 vector<int> opinions;
 vector<vector<int>> adj;
 vector<vector<int>> edge_list;
+
+void read_opinions(string filename)
+{
+    ifstream file(filename);
+    int id, opinion;
+    while(file >> id >> opinion)
+    {
+        opinions.push_back(opinion);
+        if(id >= total_nodes) total_nodes = id+1;
+    }
+    file.close();
+}
+
+void read_edges(string filename)
+{
+    ifstream file(filename);
+    int source, target;
+    
+    while(file >> source >> target)
+    {
+        edge_list.push_back({source, target});
+        if(source >= total_nodes) total_nodes = source+1;
+        if(target >= total_nodes) total_nodes = target+1;
+    }
+    file.close();
+}
 
 void build_adj_matrix()
 {
@@ -34,7 +56,7 @@ double calculate_fraction_of_ones()
     {
         if (opinions[i] == 1)
         {
-            ones_count += 1;;
+            ones_count++;
         }
     }
     return (double)ones_count / total_nodes;
@@ -129,30 +151,4 @@ int main() {
         cout << "No consensus reached after " << iteration << " iterations" << endl;
     
     return 0;
-}
-
-void read_opinions(string filename)
-{
-    ifstream file(filename);
-    int id, opinion;
-    while(file >> id >> opinion)
-    {
-        opinions.push_back(opinion);
-        if(id >= total_nodes) total_nodes = id+1;
-    }
-    file.close();
-}
-
-void read_edges(string filename)
-{
-    ifstream file(filename);
-    int source, target;
-    
-    while(file >> source >> target)
-    {
-        edge_list.push_back({source, target});
-        if(source >= total_nodes) total_nodes = source+1;
-        if(target >= total_nodes) total_nodes = target+1;
-    }
-    file.close();
 }
